@@ -34,7 +34,7 @@ cd(p);
  
 % Compile the c-files (optimized)
 plf=mexext;
-if (strcmp(plf,'mexw64') || strcmp(plf,'mexa64') || strcmp(plf,'mexs64')) || strcmp(plf,'mexmaci64')
+if (strcmp(plf,'mexw64') || strcmp(plf,'mexa64') || strcmp(plf,'mexglx') || strcmp(plf,'mexs64')) || strcmp(plf,'mexmaci64')
   if ~(exist('BVP_LC_jac.mexa64','file') ...
       || exist('BVP_LC_jac.mexw64','file') ...
       || exist('BVP_LC_jac.mexs64','file'))

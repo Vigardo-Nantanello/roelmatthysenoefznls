@@ -44,10 +44,10 @@ i  = s1(2).index;
   opt=contset(opt,'Adapt',1);
   opt=contset(opt,'MaxNumPoints',120);
 
-  ntst = 5;  % number of mesh-intervals
+  ntst = 48;  % number of mesh-intervals
              % this is an initial guess !!!!!!
              % increase this argument !
-  ncol = 4;  % number of collocation points
+  ncol = 2;  % number of collocation points
 % -----------------------------------------------
   [x0,v0]=init_H_LC(@aeronlin,xh,Vh,1,1e-6,ntst,ncol);
   [x2,v2,s2,h2,f2]=cont(@limitcycle,x0,v0,opt);
