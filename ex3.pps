@@ -1,0 +1,12 @@
+%% PPLANE file %%
+
+H.name = 'ex3.pps';
+H.xvar = 'x';
+H.yvar = 'y';
+H.xder = 'x*(x-0.2)*(1-x)-x*y';
+H.yder = 'x*y-b*y-d';
+H.pname = {'d','','b','','',''};
+H.pval = {'0','','1','','',''};
+H.fieldtype = 'lines';
+H.npts = 20;
+H.wind = [-1  1 -1  1];
