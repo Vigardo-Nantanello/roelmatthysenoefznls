@@ -1,4 +1,4 @@
-function lyap = lyapunov(funfnc, st, kkmax, x)
+function lyap = lyapunov(funfnc, st, kkmax, x, ode)
 
 n=length(x);
 %
@@ -25,7 +25,7 @@ for kindex=1:kkmax
   % vectors over time st before doing Gram-Schmidt orthogonalisation 
   %
   %%[t,xx]=ode1(funfnc,[tinit,tfinal],var); % Solve all ODEs  
-  xx=ode1(funfnc,[tinit,tfinal],var); % Solve all ODEs  
+  xx=ode(funfnc,[tinit,tfinal],var); % Solve all ODEs  
   ss=size(xx);
   var=xx(ss(1),:)'; 
   clear t xx
