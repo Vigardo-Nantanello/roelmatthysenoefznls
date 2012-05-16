@@ -38,7 +38,7 @@ plot(time,out(:,1),'r')
 
 B = 9;
 k = 0.4;
-Tend = 200;
+Tend = 2000;
 x0=[0 0];
 func = @(t,u) duffing(u,t,k,B);
 [time,out] = ode45(func,[0 Tend],x0);
