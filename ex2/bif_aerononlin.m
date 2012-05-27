@@ -52,7 +52,10 @@ i  = s1(2).index;
   [x0,v0]=init_H_LC(@aeronlin,xh,Vh,1,1e-6,ntst,ncol);
   [x2,v2,s2,h2,f2]=cont(@limitcycle,x0,v0,opt);
 
-figure(1);clf;
+  timesec = cputime-time;
+timemin=timesec/60
+  
+figure(1);clf;hold on
 [m points] = size(x2); % # of continuation steps
 dim = 2; % dimension of ODE
 % max x2 along periodic solutions
@@ -63,8 +66,25 @@ xa = max(squeeze(xx(1,:,:)), [], 1);
 %mu = x2(end,:)/42.6;
 mu = x2(end,:);
 
-cpl([mu; xa; zeros(size(xa))],v2,s2,[1 2]);
+%%
+%cpl([mu; xa; zeros(size(xa))],v2,s2,[1 2]);
+cpl2dnoline([xa; mu],v2,s2);
+%% Extra plotting
+i=2;
+while(mu(i+1)>mu(i))
+    i=i+1;
+end
+plot(mu(1:i),xa(1:i),'b')
+j=i+1;
+while(mu(j+1)<mu(j-1))
+    j=j+1;
+end
+plot(mu(i+1:j),xa(i+1:j),'b--')
+plot(mu(j+1:end),xa(j+1:end),'b')
 axis([0 2.5 -.5 4])
+plot([0 1],[0 0],'b')
+plot([1 2.5],[0 0],'b--')
+saveEps('../verslag/img/ex2/bifA.eps',12,8)
 
 figure(2);clf;
 e = size(x2,1)-1;
@@ -74,6 +94,8 @@ xlabel('V/Vc')
 ylabel('y/Vc')
 zlabel('ydot/Vc')
 grid on
+saveEps('../verslag/img/ex2/bifA3d.eps',12,8)
+
 
 figure(3);clf;
 e = size(x2,1)-1;
@@ -87,5 +109,3 @@ ylabel('y')
 zlabel('ydot')
 grid on
 
-timesec = cputime-time;
-timemin=timesec/60

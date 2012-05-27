@@ -1,0 +1,131 @@
+
+% Created 2011-10-27 do 16:51
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{color}
+\usetikzlibrary{positioning,shapes,shadows,arrows}
+%\usepackage{marvosym}
+%\usepackage{wasysym}
+%\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{placeins}
+\usepackage{pict2e}
+\usepackage{subfig}
+\usepackage{appendix}
+%\usepackage{cmbright}
+\usepackage[english]{babel}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+ \hyphenpenalty=5000
+\tolerance=1000
+\providecommand{\alert}[1]{\textbf{#1}}
+\newfloat{MATLAB code}{h}{}
+\usepackage{tikz,pgfplots}
+\newcommand{\code}[1]{\textbf{\texttt{#1}}}
+\pgfplotsset{compat=newest}
+\pgfplotsset{plot coordinates/math parser=false}
+
+\newcommand{\NAAM}{Roel Matthysen}
+\newcommand{\RICHTING}{Master WIT Fase 1}
+\newcommand{\SNUMMER}{s0202264}
+%\newcommand{\NAAMT}{Nico Vervliet} 
+%\newcommand{\RICHTINGT}{Master WIT Fase 1}
+%\newcommand{\SNUMMERT}{s0203233}
+\newcommand{\TITEL}{Nonlinear Systems}
+\newcommand{\SUBTITEL}{Report on the exercise sessions}
+\newcommand{\VAK}{Nonlinear Systems}
+\newcommand{\PROFESSOR}{Prof. J. Suykens}
+\newcommand{\PROFESSORb}{Prof. D. Roose}
+\newcommand{\TAV}{}
+\newcommand{\DATUM}{\today}
+
+
+\newlength\figureheight
+\newlength\figurewidth
+\setlength\figureheight{2cm}
+\setlength\figurewidth{12cm}
+
+
+\begin{document}
+
+\include{voorblad}
+\tableofcontents
+\clearpage
+
+\input{ex1}
+\clearpage
+\input{ex2}
+\clearpage
+\input{ex3}
+\clearpage
+\input{ex4}
+\clearpage
+\input{ex5}
+
+
+
+
+\clearpage
+\appendix
+\section{PPLANE Figures}
+\numberwithin{figure}{section}
+\begin{figure}[htp]
+\centering
+\includegraphics{img/ex3/PPLANE1.eps}
+\caption{}
+\label{fig:PPLANE1}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics{img/ex3/PPLANE2.eps}
+\caption{}
+\label{fig:}
+\end{figure}
+\begin{figure}[htp]
+\centering
+\includegraphics{img/ex3/PPLANE3.eps}
+\caption{}
+\label{fig:PPLANE3}
+\end{figure}
+\begin{figure}[htp]
+\centering
+\includegraphics{img/ex3/PPLANE4.eps}
+\caption{}
+\label{fig:}
+\end{figure}
+\begin{figure}[htp]
+\centering
+\includegraphics{img/ex3/PPLANE5.eps}
+\caption{}
+\label{fig:PPLANE5}
+\end{figure}
+\clearpage
+\section{Duffing regimes}
+\begin{figure}[htp]
+\centering
+\includegraphics[scale=1.5]{img/ex4/duffingscheme.eps}
+\caption{}
+\label{fig:ex4duffingscheme}
+\end{figure}
+
+
+
+\end{document}
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

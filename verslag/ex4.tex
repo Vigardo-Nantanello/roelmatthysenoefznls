@@ -1,0 +1,72 @@
+\section{Lyapunov's exponents, Chua's circuit and Duffing oscillator with periodic forcing}
+In this section, different systems all related to chaos in the phase plane are studied. In a first subsection, the importance of Lyapunov exponents in dynamical systems will be explained, as well as the numerical computations required to obtain them. In a second subsection the Duffing oscillator with periodic forcing is studied and simulated, to show chaotic behavior. The oscillator will also be brought in the subharmonic regime, to show its difference from the chaotic case. In a last subsection Chua's circuit will be studied, an electrical circuit known to exhibit chaotic behavior. 
+\subsection{Lyapunov exponents of the Lorenz Equations}
+The Lyapunov exponents for an attractor of a dynamical system are defined as follows. Consider the evolution of an infinitesimal sphere of perturbed initial conditions. During its evolution, the sphere will become distorted into an infinitesimal ellipsoid. When the length of the $k$th principal axis of the ellipsoid is denoted by $\delta_k(t)$, it's length will evolve according to $\delta_k(t)~\delta_k(0)e^{\lambda_kt}$. The $\lambda_k$ are the Lyapunov exponents. For the remainder of the discussion, the Lyapunov exponents will be assumed to be ordered, with $\lambda_1\geq\lambda_2\geq...$. For large $t$, the diameter of the ellipsoid is controlled by the most positive component $v_1$ corresponding to $\lambda_1$. Different types of attractors discern themselves through this largest Lyapunov exponent.
+\begin{description}
+\item[Stable fixed point] For a set of perturbed initial conditions in the region of attraction, they will all end up in the same point. Every axis of the ellipsoid collapses to zero, and all the Lyapunov exponents are negative.
+\item[Stable limit cycle] When a set of perturbed initial conditions is attracted towards the limit cycle, their distance will be constant when they have reached the limit cycle. This is because they will travel on the limit cycle, all with exactly the same period. Therefore the largest Lyapunov exponent must be zero.
+\item[Chaotic/strange attractor] The definition of these attractors states that they have \textit{"sensitive dependence on initial conditions"}. This means that the distance between infinitesimally close initial conditions will grow, instead of evolving to zero or remaining constant. Therefore, the largest Lyapunov exponent must be positive.
+\end{description}
+
+The Lyapunov exponents can be computed numerically, as explained in the lectures. The difficulty lies in the fact that almost any initial disturbance will have a component along $v_1$. As explained before when the system is chaotic this component will be enormously amplified relative to the other components. When iterating multiple displacements they will all become almost parallel, and the other Lyapunov exponents are hard to extract. This problem is solved by frequently reorthogonalizing the vectors, as in the MATLAB function \code{lyapunov.m}. This function takes 4 arguments: the differential equations describing the system, the number of iterations $kmax$, the timestep $st$ to be taken for simulation every iteration, the initial phase point $x$ and an ODE solver. The procedure is as follows:
+\begin{itemize}
+\item The initial tangent vectors are taken to be the identity matrix $I$. It's evolution will be modeled by the linearised system at the phase point. This can be done by multiplying with the Jacobian matrix, a computation that is in \code{rhs\_lorenz.m}. The Jacobian for the Lorenz equations is
+\begin{equation}
+\begin{bmatrix} -\sigma&  \sigma   & 0\\
+ (r-z)  &  -1  &   -x \\
+  y  &     x &    -b\end{bmatrix}
+\end{equation}
+\item In every iteration $j=1,..,kmax$
+\begin{itemize}
+\item The evolution of the phase point is integrated over $st$ along with the tangent vectors.
+\item The tangent vectors are orthogonalised via Gramm-Schmidt orthogonalization.
+\item The evolution of the length of the $i$th largest vector is used to update the approximation of the $i$th largest Lyapunov exponent. 
+\item The vectors are normalized
+\end{itemize}
+\item The Lyapunov exponents are returned as the last updated approximation.
+\end{itemize}
+Figure \ref{fig:ex4lyapunovlorenz} shows the results when this method is applied to the Lorenz equations. When suitable parameters are chosen, the function returns are a good approximation
+\begin{equation}
+\lambda_1=0.8788\mbox{\hspace{6pt}}(0.9),\mbox{\hspace{12pt}} \lambda_2= -0.0017 \mbox{\hspace{6pt}}(0),\mbox{\hspace{12pt}} \lambda_3= -14.5407 \mbox{\hspace{6pt}}(-14.57)
+\end{equation}
+The influence of the parameters is rather straightforward. The experiments are carried out for varying $st$ and $kkmax$ when keeping the other parameters constant. Care is taken that the product of $st$ and $kkmax$ stays constant, so that the calculations all take equal simulated time. The result is shown in figure \ref{fig:ex4comparison}. When increasing $kkmax$, the solutions will have stabilised more, and the error decreases. When increasing $st$, the approximation gets coarser, and the errors grow.
+\begin{figure}[htp]
+\centering
+\includegraphics{img/ex4/lyaplorenz.eps}
+\caption{The approximations for the Lyapunov exponents as a function of time. The parameters used are $x=[0.5,0.5,0.5],kmax=8000,st=0.05$.}
+\label{fig:ex4lyapunovlorenz}
+\end{figure}
+\begin{figure}[H]
+\centering
+\subfloat[kkmax]{\includegraphics{img/ex4/lyapkkmax.eps}}
+\subfloat[st]{\includegraphics{img/ex4/lyapst.eps}}
+\caption{}
+\label{fig:ex4comparison}
+\end{figure}
+\subsection{the Duffing oscillator with periodic forcing}
+The Duffing oscillator with periodic forcing is described by the following equation 
+\begin{equation}
+\ddot{x}+k\dot{x}+x^3=B\cos{t}.
+\end{equation}
+The long term behavior of the system depends on the parameters $B$ and $k$, and the different possible regimes are shown in appendix as figure \ref{fig:ex4duffingscheme}. First the system will be studied in the chaotic region. Therefore the parameters are chosen to be $B=11$ and $k=0.15$. The result of a first simulation is shown in figure \ref{fig:ex4duffingexample}, where indeed the trajectory does not seem to converge to a limit cycle or stable point. To show that it is indeed chaotic, the behavior of two close initial points is simulated in figure \ref{fig:duffingchaoticposition}. The figures show the behavior of the two points at times between 75 and 90. This time interval is chosen to visually illustrate the chaotic behavior. In interval 1, the two trajectories are practically indescernable. In interval 2 and 3 the trajectories start to slowly diverge, and in interval 4 the trajectories are no longer close so that in interval 5 and 6 they show completely different behavior. A plot of $x$ and $\dot{x}$ in function of the time is shown in figure \ref{fig:duffingtime} and \ref{fig:duffingtimeb}. These figures illustrate that the trajectories that are almost identical up until 75, are rapidly exhibiting completely different behavior in just a few seconds.
+\begin{figure}[htp]
+\centering
+\includegraphics{img/ex4/duffingexample.eps}
+\caption{}
+\label{fig:ex4duffingexample}
+\end{figure}
+\begin{figure}[htp]
+\centering
+\includegraphics{img/ex4/duffingchaoticposition.eps}
+\caption{}
+\label{fig:duffingchaoticposition}
+\end{figure}
+\begin{figure}[htp]
+\centering
+\subfloat{\includegraphics{img/ex4/duffingchaotictimea.eps}\label{fig:duffingtime}}\\
+\subfloat{\includegraphics{img/ex4/duffingchaotictimeb.eps}\label{fig:duffingtimeb}}
+\caption{}
+\label{fig:}
+\end{figure}
+
+

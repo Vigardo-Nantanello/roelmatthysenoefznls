@@ -1,0 +1,99 @@
+\section{Pattern formation}\label{sec:patternformation}
+In this section the Brusselator model is studied, which is a system of two interacting species. This model is of interest because it exhibits Turing patterns. 
+\newline
+\newline
+First the equations will be studied for a one-dimensional spatial domain. For this one-dimensional case the conditions for Turing instability will be studied. 
+\newline
+\newline
+Later on a simulator will be used to study the two-dimensional case, and some of the results for the one-dimensional case will be reused.
+\subsection{The Brusselator model}
+The equations for the one-dimensional case are given by
+\begin{align}
+u_t&=D_uu_{xx}+A-(B+1)u+u^2v \label{eqn:brusu}\\ 
+v_t&=D_vv_{xx}+Bu-u^2v \label{eqn:brusv}
+\end{align}
+where $D_u$ and $D_v$ are the diffusion constants of the two species $u$ and $v$, and $A$ and $B$ are concentrations which are kept constant. This system has a spatially uniform steady state, in which $u_0=A$, $v_0=B/A$. The equations (\ref{eqn:brusu})-(\ref{eqn:brusv}) contain a diffusion term dependent on $u_{xx}$ or $v_{xx}$ and form a PDE system. The equations without this diffusion terms 
+\begin{align}
+u_t&=A-(B+1)u+u^2v \label{eqn:brusuode}\\ 
+v_t&=Bu-u^2v \label{eqn:brusvode}
+\end{align}
+form an ODE system that will also be studied. 
+\subsection{One-dimensional case}
+In this section some properties such as the onset of Turing instability will be derived for the one-dimensional case.
+\subsubsection{Stability of the spatially uniform steady state}
+In order to study the stability of $u_0=A$, $v_0=B/A$, the model is linearised around this state.  To this end the derivative is taken with respect to $u$ and $v$.
+\begin{equation}\label{eqn:linbrusselator}
+\begin{bmatrix}u_t \\ v_t \end{bmatrix}=\begin{bmatrix}D_uu_{xx}\\ D_vv_{xx}\end{bmatrix}+\begin{bmatrix}-(B+1)+2uv & u^2 \\
+B-2uv & -u^2 \end{bmatrix}\begin{bmatrix}u\\v\end{bmatrix}
+\end{equation}
+And after filling in $u_0=A$, $v_0=B/A$
+\begin{equation}
+\begin{bmatrix}u_t \\ v_t \end{bmatrix}=\begin{bmatrix}D_uu_{xx}\\ D_vv_{xx}\end{bmatrix}+\begin{bmatrix}B-1 & A^2 \\
+-B & -A^2 \end{bmatrix}\begin{bmatrix}u\\v\end{bmatrix}
+\end{equation}
+\newline
+\newline
+The linear evolution matrix of a Fourier mode $(u_F,v_F) = (u_1,v_1)exp(\lambda t + ikx)$ can then easily be found by noting that $u_{xx}$ and $v_{xx}$ simply become $-k^2(u_F,v_F)$. Filling in the Fourier mode and its spatial derivatives in (\ref{eqn:linbrusselator}) results in a linear evolution matrix given by
+\begin{equation}\label{eqn:linevmat}
+\begin{bmatrix}(B-1)-D_uk^2 & A^2 \\ -B & -A-D_vk^2\end{bmatrix}
+\end{equation}
+\paragraph{Eigenvalues of the linear evolution matrix}\hfill\newline
+The eigenvalues of the linear evolution matrix given by (\ref{eqn:linevmat}) can be computed in a straightforward fashion. The trace of this matrix equals
+\begin{equation}
+\Sigma=B-1-A^2-k^2(D_u+D_v)
+\end{equation} 
+and it's determinant equals
+\begin{equation}
+\Delta = A^2 + k^2(A^2D_u+(1-B)D_v)+k^4D_uD_v.
+\end{equation}
+The eigenvalues are then the solutions of the characteristic equation, given by
+\begin{equation}
+s_{\pm}=\frac{1}{2}(\Sigma\pm\sqrt{\Sigma^2-4\Delta}),
+\end{equation}
+also called a \textit{dispersion relation}.
+
+\subsubsection{The onset of Turing instability}
+When explicitly writing the eigenvalues as a real and imaginary part $s_{\pm}=\sigma\pm i\omega$, a Turing instability occurs when $\sigma$ changes sign, and $\omega$ is zero. This can be explained as follows. The Turing instability occurs when the solution of the ODE system is stable and the solution of the PDE system is unstable. VERDER OVER NADENKEN
+\paragraph{The critical value $B_T$}\hfill\newline
+For $B$ very small, the spatially uniform solution is stable. This can be seen because the trace is negative, and the determinant is positive, so the eigenvalues will have negative real parts. When increasing $B$ at a given point Turing instability will set in. This critical value $B_T$ can be computed as follows. Turing instability can start for one of two reasons.
+The Jacobian of the ODE system $J_O$ has trace$<0$ and determinant$>0$ (stable region) and either
+\begin{itemize}
+\item The Jacobian of the PDE system $J_P$ has trace$>0$ and determinant$>0$ (unstable region)
+\item The Jacobian of the PDE system $J_P$ has determinant$<0$ (saddle region)
+\end{itemize}
+The first possibility is quickly ruled out because the $trace(J_p)$ is simple $trace(J_O)-k^2(D_u+D_v)$. since the diffusion coefficients are positive numbers, $trace(J_p)$ will never be positive while $trace(J_O)$ is negative.
+\newline
+\newline
+The second possibility implies that the determinant should be negative. The instability will thus start when the determinant is negative. Setting the determinant to zero  with constant $A$, $D_u$ and $D_v$ gives an equation in two variables $B$ and $k$.
+\begin{align}
+\Delta = 0 &=A^2 + k^2(A^2D_u+(1-B)D_v)+k^4D_uD_v \\
+B&=A^2\frac{D_u}{D_v}+1+\frac{A^2}{k^2D_v}+k^2D_u  \label{eqn:bfunck}
+\end{align}
+$B$ can now be seen as a function of $k$. To solve the equation it must be noted that the instability will start for a critical wavenumber $k_T$ for which the corresponding $B$ is the lowest. This critical wavenumber is the minimum of $B(k)$ and can be computed by setting the derivative to $k$ to zero.
+\begin{align}
+\frac{\delta B}{\delta k}=0&=2kD_u-2\frac{A^2}{D_vk^3} \\
+k_T&=\left(\frac{A^2}{D_uD_v}\right)^{\frac{1}{4}}
+\end{align}
+
+By filling in this value in (\ref{eqn:bfunck}) the critical value $B_T$ can be found
+\begin{align}
+B_T&=A^2\frac{D_u}{D_v}+1+\frac{A^2}{A\sqrt{\frac{D_v}{D_u}}}+A\sqrt{\frac{D_u}{D_v}} \\
+ &=(1+A\eta)^2
+\end{align}
+with 
+\begin{equation}
+\eta=\sqrt{D_u/D_v}
+\end{equation}
+\subsubsection{Instability in the ODE system}
+When considering the ODE system (\ref{brusuode})-(\ref{brusvode}) with jacobian matrix given by
+\begin{equation}
+J_O=\begin{bmatrix}(B-1) & A^2 \\ -B & -A^2\end{bmatrix},
+\end{equation}
+it is easily seen that the system exhibits a Hopf biforcation when $B_H=1+A^2$. The determinant $A^2$ is always positive, and when $B_H=1+A^2$, the trace changes sign, thus altering the stability of the spiral. This Hopf bifurcation might occur for a lower value of $B$ than the Turing instability, the latter being dependant on the parameter $\eta$. The critical value $\eta_T$ can be computed as follows
+\begin{align}
+1+A^2&=(1+A\eta_T)^2 \\
+\eta_T&=\frac{\sqrt{A^2+1}-1}{A}
+\end{align}
+The Turing stability sets in first when $\eta<\eta_T$.
+\subsection{Two-dimensional case: Brusselator applet}
+
