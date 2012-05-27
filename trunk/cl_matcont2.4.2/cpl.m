@@ -4,35 +4,55 @@ function cpl(x,v,s,varargin)
 % dim(x) = 2 or 3
 %
 if nargin > 3
-  x = x(varargin{1},:);
-  v = v(varargin{1},:);
+    x = x(varargin{1},:);
+    v = v(varargin{1},:);
 end
 [dim,stop]=size(x);
 
 watchon;
 switch dim
-  case 2
-    cpl2d(x,v,s);
-  case 3
-    cpl3d(x,v,s);
-  otherwise
-    error('This dimension is not supported');
+    case 2
+        cpl2d(x,v,s);
+    case 3
+        cpl3d(x,v,s);
+    otherwise
+        error('This dimension is not supported');
 end
 watchoff;
 
+% function res = cpl2d(x,v,s)
+%
+% line(x(1,:),x(2,:),'linestyle','-','color','b');
+% line(x(1,cat(1,s.index)),x(2,cat(1,s.index)),'linestyle','o','color','r','Markersize',4,'MarkerFaceColor','r');
+% d=axis;
+% if size(s,1)~=2
+%     skew = 0.03*[d(2)-d(1) d(4)-d(3)];
+%     xindex=cat(1,s.index);
+%     xindex=xindex(2:end-1);
+%     s(1).label=''; s(end).label='';
+%     text( x(1,xindex)+skew(1),x(2,xindex)+skew(2), cat(1,s.label));
+% end
+% res =2;
 function res = cpl2d(x,v,s)
-
+for i=2:size(s,1)-1
+    if(strcmp(s(i).msg,'Neutral saddle'))
+        s(i)=[];
+    end
+end
 line(x(1,:),x(2,:),'linestyle','-','color','b');
-line(x(1,cat(1,s.index)),x(2,cat(1,s.index)),'linestyle','.','color','r');
+line(x(1,cat(1,s(2:end-1).index)),x(2,cat(1,s(2:end-1).index)),'linestyle','o','color','r','Markersize',4,'MarkerFaceColor','r');
 d=axis;
 if size(s,1)~=2
-    skew = 0.03*[d(2)-d(1) d(4)-d(3)];
-    xindex=cat(1,s.index);
-    xindex=xindex(2:end-1);
-    s(1).label=''; s(end).label='';
-    text( x(1,xindex)+skew(1),x(2,xindex)+skew(2), cat(1,s.label));
+    skew = 0.05*[d(2)-d(1) d(4)-d(3)];
+    for i=2:size(s,1)-1
+        sloc=s(i);
+        text( x(1,sloc.index)+skew(1),x(2,sloc.index)+skew(2), [sloc.label]);
+%         line([x(1,sloc.index) x(1,sloc.index)+skew(1)],[x(2,sloc.index) x(2,sloc.index)+skew(2)])
+    end
 end
 res =2;
+
+
 
 function res = cpl3d(x,v,s)
 
@@ -46,7 +66,7 @@ if size(s,1)~=2
     xindex=xindex(2:end-1);
     s(1).label=''; s(end).label='';
     text( x(1,xindex)+skew(1),x(2,xindex)+skew(2), x(3,xindex)+skew(3) ,cat(1,s.label));
-   
+    
 end
 res =3;
 
